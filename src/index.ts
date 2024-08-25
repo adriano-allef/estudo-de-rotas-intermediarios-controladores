@@ -1,51 +1,14 @@
 import 'dotenv/config'
 import express from 'express'
+import { buscarUsuario, buscarUsuarioQuery, itemProdutos } from './controladores'
 
 const servidor = express()
 
-servidor.get('/produtos/:item', (req, res) => {
-    console.log(req.params)
-    return res.send('O nodemon está configurado com o typescript')
-} )
-
-const pessoas = [
-    {nome: 'Adriano', email: 'adriano@email.com'},
-    {nome: 'João', email: 'joao@email.com'},
-    {nome: 'Maria', email: 'maria@email.com'}, 
-]
-
-servidor.get('/usuarios/:email', (req, res) => {
-    const { email } = req.params
-
-    const pessoa = pessoas.find((item) =>{
-        return item.email === email
-    } )
-
-    if (!pessoa){
-        return res.send('Pessoa não encontrada!')
-    }
-
-    return res.send(pessoa)
-} )
-
-servidor.get('/usuarios', (req, res) => {
-    const { email } = req.query
-
-    if (!email) {
-        return res.send('parametro não informado')
-    }
+servidor.get('/produtos/:item', itemProdutos)
 
 
-    console.log(req.query)
-    const pessoa = pessoas.find((item) =>{
-        return item.email === email
-    } )
+servidor.get('/usuarios/:email', buscarUsuario)
 
-    if (!pessoa) {
-        return res.send('Pessoa não encontrada!')
-    }
-
-    return res.send('OK')
-} )
+servidor.get('/usuarios', buscarUsuarioQuery)
 
 servidor.listen(process.env.PORT)
