@@ -8,7 +8,7 @@ const pessoas = [
 
 export const itemProdutos = (req: Request, res: Response) => {
     console.log(req.params)
-    return res.send('O nodemon está configurado com o typescript')
+    return res.send('Cheguei no controlador')
 }
 
 export const buscarUsuario = (req: Request, res: Response) => {
