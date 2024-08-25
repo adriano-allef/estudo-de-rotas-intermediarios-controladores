@@ -1,23 +1,17 @@
 import 'dotenv/config'
 import express, { NextFunction, Request, Response } from 'express'
 import { buscarUsuario, buscarUsuarioQuery, itemProdutos } from './controladores'
+import { intermediarioGeral, meuPrimeiroIntermediario } from './intermediarios'
 
 const servidor = express()
 
-const meuPrimeiroIntermediario = (req: Request, res: Response, next: NextFunction) => {
-    console.log('Passei pelo intermediario')
-
-    if (req.params.item === 'sair') {
-        return res.send('A requisição foi respondida no intermediario, antes de chegar no controlador')
-    }
-
-    next()
-}
+servidor.use(intermediarioGeral)
 
 servidor.get('/produtos/:item', meuPrimeiroIntermediario, itemProdutos)
 
-
 servidor.get('/usuarios/:email', buscarUsuario)
+
+servidor.use(intermediarioGeral)
 
 servidor.get('/usuarios', buscarUsuarioQuery)
 
